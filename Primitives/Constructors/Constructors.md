@@ -969,7 +969,7 @@ int main() {
 
 Understanding these disadvantages helps you make informed decisions about when and how to use smart pointers in your projects.
 
-Certainly! Cyclic references occur when two or more objects reference each other, creating a cycle that prevents their destruction. This can lead to memory leaks because the reference count of the objects involved in the cycle never reaches zero, meaning the objects are never deallocated.
+Cyclic references occur when two or more objects reference each other, creating a cycle that prevents their destruction. This can lead to memory leaks because the reference count of the objects involved in the cycle never reaches zero, meaning the objects are never deallocated.
 
 ### Example of Cyclic References
 

@@ -171,7 +171,7 @@ int main() {
 
 This pattern is widely used in event-driven systems, such as GUI frameworks, where various components need to respond to user actions or other events.
 
-Certainly! While the Observer Pattern has many advantages, it also comes with some drawbacks:
+While the Observer Pattern has many advantages, it also comes with some drawbacks:
 
 1. **Memory Leaks**: If observers are not properly detached from the subject, it can lead to memory leaks. This is especially problematic in languages without automatic garbage collection, like C++.
 

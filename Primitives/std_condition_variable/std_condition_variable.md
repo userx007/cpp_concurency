@@ -182,7 +182,7 @@ In this example, the `ThreadPool` class manages a pool of worker threads that pr
 
 These examples demonstrate how condition variables can be used to synchronize threads and manage shared resources effectively.
 
-Certainly! Let's break down the differences between `notify_one` and `notify_all`, and then discuss some common pitfalls with condition variables.
+Let's break down the differences between `notify_one` and `notify_all`, and then discuss some common pitfalls with condition variables.
 
 ### `notify_one` vs `notify_all`
 

@@ -155,7 +155,7 @@ int main() {
 - **Shared Pointers**: Use when you need shared ownership of an object and want automatic memory management.
 - **Weak Pointers**: Use to reference an object without affecting its lifetime, especially to avoid reference cycles.
 
-Certainly! Let's dive into more complex scenarios where weak pointers are used to manage memory effectively and avoid issues like reference cycles.
+Let's dive into more complex scenarios where weak pointers are used to manage memory effectively and avoid issues like reference cycles.
 
 ### Example 1: Graph Data Structure
 
