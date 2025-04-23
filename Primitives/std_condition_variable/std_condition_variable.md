@@ -691,3 +691,61 @@ In this example:
 
 By using the mutex, we ensure that the shared `ready` variable is accessed safely and consistently by both the `worker` and `set_ready` functions.
 
+The behavior of releasing a mutex during a wait operation is specific to condition variables. Let's clarify this:
+
+### Condition Variables and Mutexes
+
+When a thread calls `wait`, `wait_for`, or `wait_until` on a condition variable, the mutex associated with the condition variable is released while the thread is waiting. This allows other threads to acquire the mutex and potentially modify the shared data or condition. Once the condition variable is notified and the predicate returns `true`, the mutex is reacquired by the waiting thread before it proceeds.
+
+### Example with Condition Variable
+
+```cpp
+std::mutex mtx;
+std::condition_variable cv;
+bool ready = false;
+
+void worker() {
+    std::unique_lock<std::mutex> lock(mtx);
+    cv.wait(lock, []{ return ready; });
+    std::cout << "Worker thread proceeding\n";
+}
+
+void set_ready() {
+    std::unique_lock<std::mutex> lock(mtx);
+    ready = true;
+    cv.notify_all();
+}
+```
+
+In this example, the mutex `mtx` is released during the `cv.wait(lock, []{ return ready; })` call, allowing other threads to modify the `ready` variable.
+
+### Other Synchronization Primitives
+
+For other synchronization primitives, such as `std::mutex` or `std::unique_lock`, the mutex is not automatically released during wait operations. The mutex remains locked until explicitly unlocked by the thread.
+
+### Example without Condition Variable
+
+```cpp
+std::mutex mtx;
+
+void worker() {
+    std::unique_lock<std::mutex> lock(mtx);
+    // Do some work while holding the mutex
+    std::cout << "Worker thread proceeding\n";
+    // Mutex is released when lock goes out of scope
+}
+
+int main() {
+    std::thread t(worker);
+    t.join();
+}
+```
+
+In this example, the mutex `mtx` is held by the `worker` function until the `std::unique_lock` goes out of scope. There is no automatic release of the mutex during any wait operation.
+
+### Summary
+
+- **Condition Variables**: The mutex is released during `wait`, `wait_for`, or `wait_until` calls, allowing other threads to modify the condition.
+- **Other Synchronization Primitives**: The mutex remains locked until explicitly unlocked by the thread.
+
+Do you have any other questions or need further clarification on this topic?
