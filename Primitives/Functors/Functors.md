@@ -584,6 +584,133 @@ int main() {
 }
 ```
 
+In C++, functors (or function objects) can indeed implement multiple `operator()` functions with different parameters. This is achieved through **function overloading**. Here's a simple example to illustrate this:
+
+```cpp
+#include <iostream>
+
+class Functor {
+public:
+    void operator()(int x) {
+        std::cout << "Integer: " << x << std::endl;
+    }
+
+    void operator()(double x) {
+        std::cout << "Double: " << x << std::endl;
+    }
+
+    void operator()(const std::string& x) {
+        std::cout << "String: " << x << std::endl;
+    }
+};
+
+int main() {
+    Functor functor;
+    functor(42);           // Calls operator()(int)
+    functor(3.14);         // Calls operator()(double)
+    functor("Hello");      // Calls operator()(const std::string&)
+    return 0;
+}
+```
+
+In this example, the `Functor` class has three overloaded `operator()` functions, each accepting different types of parameters. When you call the functor with different arguments, the appropriate `operator()` function is invoked based on the argument type.
+
+Here are a few more examples of functors in C++ with different `operator()` implementations:
+
+### Example 1: Arithmetic Operations Functor
+
+```cpp
+#include <iostream>
+
+class ArithmeticFunctor {
+public:
+    int operator()(int a, int b) {
+        return a + b;
+    }
+
+    double operator()(double a, double b) {
+        return a * b;
+    }
+
+    int operator()(int a, int b, int c) {
+        return a - b - c;
+    }
+};
+
+int main() {
+    ArithmeticFunctor arithmetic;
+    std::cout << "Sum: " << arithmetic(3, 4) << std::endl;           // Calls operator()(int, int)
+    std::cout << "Product: " << arithmetic(2.5, 4.0) << std::endl;   // Calls operator()(double, double)
+    std::cout << "Difference: " << arithmetic(10, 3, 2) << std::endl; // Calls operator()(int, int, int)
+    return 0;
+}
+```
+
+### Example 2: String Manipulation Functor
+
+```cpp
+#include <iostream>
+#include <string>
+
+class StringFunctor {
+public:
+    std::string operator()(const std::string& str) {
+        return str + "!";
+    }
+
+    std::string operator()(const std::string& str1, const std::string& str2) {
+        return str1 + " " + str2;
+    }
+
+    std::string operator()(const std::string& str, int times) {
+        std::string result;
+        for (int i = 0; i < times; ++i) {
+            result += str;
+        }
+        return result;
+    }
+};
+
+int main() {
+    StringFunctor stringFunctor;
+    std::cout << "Exclamation: " << stringFunctor("Hello") << std::endl;               // Calls operator()(const std::string&)
+    std::cout << "Concatenation: " << stringFunctor("Hello", "World") << std::endl;    // Calls operator()(const std::string&, const std::string&)
+    std::cout << "Repeat: " << stringFunctor("Repeat", 3) << std::endl;                // Calls operator()(const std::string&, int)
+    return 0;
+}
+```
+
+### Example 3: Conditional Functor
+
+```cpp
+#include <iostream>
+
+class ConditionalFunctor {
+public:
+    bool operator()(int a, int b) {
+        return a > b;
+    }
+
+    bool operator()(double a, double b) {
+        return a < b;
+    }
+
+    bool operator()(const std::string& str) {
+        return !str.empty();
+    }
+};
+
+int main() {
+    ConditionalFunctor conditional;
+    std::cout << "Greater: " << conditional(5, 3) << std::endl;           // Calls operator()(int, int)
+    std::cout << "Lesser: " << conditional(2.5, 3.5) << std::endl;        // Calls operator()(double, double)
+    std::cout << "Non-empty: " << conditional("Hello") << std::endl;      // Calls operator()(const std::string&)
+    return 0;
+}
+```
+
+These examples demonstrate how functors can be used to perform different operations based on the types and number of parameters passed to `operator()`.
+
 ### Best Practices for Using Functors
 
 1. **Keep Functors Simple**: Ensure that functors are simple and focused on a single task. This makes them easier to understand and maintain.
